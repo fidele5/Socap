@@ -1,0 +1,26 @@
+<resources>
+    
+    <string name="app_social_app_name">Social App</string>
+
+    <!--exit notification-->
+    <string name="app_social_press_again_exit_app">Press again to exit</string>
+    <string name="app_social_action_settings">Settings</string>
+    <string name="app_social_activity_select_friend">Select Friend</string>
+
+    <string name="app_social_about_text">This is Material Design Social App template, this app use dummy data not related for any backend
+    \n\nImage source :
+        \n<a href="www.pexels.com">www.pexels.com</a>
+        \n<a href="www.pixabay.com">www.pixabay.com</a>
+    </string>
+
+    <string name="app_social_my_name">John Miller</string>
+
+    <string name="app_social_tab_feed">Feeds</string>
+    <string name="app_social_tab_friend">Friends</string>
+    <string name="app_social_tab_message">Messages</string>
+    <string name="app_social_tab_notif">Notifications</string>
+    <string name="app_social_tab_profile">Profile</string>
+    <string name="app_social_avatar_source">http://www.designskilz.com/</string>
+
+
+</resources>

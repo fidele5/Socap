@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "105538470059",
+    "firebase_url": "https://mercapp-706b0-default-rtdb.firebaseio.com",
+    "project_id": "mercapp-706b0",
+    "storage_bucket": "mercapp-706b0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:105538470059:android:200fd9c7ba6e7b1f84b7ee",
+        "android_client_info": {
+          "package_name": "com.example.socap"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "105538470059-seojefrqqbbs2sc2q94rfbsd1qs6gpo4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3PIn-2L_5RnStcKTWf8s1NyiX6KDhmL4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "105538470059-seojefrqqbbs2sc2q94rfbsd1qs6gpo4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:105538470059:android:cabcee9389d449d584b7ee",
+        "android_client_info": {
+          "package_name": "com.plk.mercapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "105538470059-mks6dlc3v78ghdpotgjf9ofluuogtadr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.plk.mercapp",
+            "certificate_hash": "b5ae3bec60914ba899d6ef8bc3780294a8308840"
+          }
+        },
+        {
+          "client_id": "105538470059-seojefrqqbbs2sc2q94rfbsd1qs6gpo4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC3PIn-2L_5RnStcKTWf8s1NyiX6KDhmL4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "105538470059-seojefrqqbbs2sc2q94rfbsd1qs6gpo4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

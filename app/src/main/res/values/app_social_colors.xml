@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="app_social_colorPrimary">#4F6BF0</color>
+    <color name="app_social_colorPrimaryDark">#3F55C0</color>
+    <color name="app_social_colorPrimaryLight">#658AF9</color>
+
+    <color name="app_social_colorAccent">#FF4081</color>
+    <color name="app_social_colorAccentDark">#616161</color>
+    <color name="app_social_colorAccentLight">#F06292</color>
+
+    <color name="app_social_grey_hard">#96989A</color>
+    <color name="app_social_grey_medium">#BDBFC1</color>
+    <color name="app_social_grey_soft">#F5F5F5</color>
+
+    <color name="app_social_grey_bg">#E6E6E6</color>
+    <color name="app_social_grey_text">#222D31</color>
+    <color name="app_social_tab_indicator_color">#FFFFFF</color>
+    <color name="app_social_me_chat_bg">#FFE0B2</color>
+
+    <color name="app_social_darkOverlay">#80000000</color>
+    <color name="app_social_darkOverlaySoft">#40000000</color>
+    <color name="app_social_whiteOverlay">#40FFFFFF</color>
+</resources>
