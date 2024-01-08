@@ -1,6 +1,7 @@
 package com.example.socap.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,8 +83,8 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final User c = filtered_items.get(position);
         holder.name.setText(c.getName());
-        Picasso.with(ctx).load(c.getPhoto()).resize(100, 100).transform(new CircleTransform()).into(holder.image);
-        setAnimation(holder.itemView, position);
+//        Picasso.with(ctx).load(c.getPhoto()).resize(100, 100).transform(new CircleTransform()).into(holder.image);
+//        setAnimation(holder.itemView, position);
 
         holder.lyt_parent.setOnClickListener(new View.OnClickListener() {
             @Override

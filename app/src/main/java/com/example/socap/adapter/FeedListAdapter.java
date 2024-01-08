@@ -45,11 +45,11 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
             super(v);
             photo = (ImageView) v.findViewById(R.id.photo);
             text_name = (TextView) v.findViewById(R.id.text_name);
-            bt_more = (ImageView) v.findViewById(R.id.bt_more);
+            //bt_more = (ImageView) v.findViewById(R.id.bt_more);
             photo_content = (ImageView) v.findViewById(R.id.photo_content);
-            bt_like = (ImageView) v.findViewById(R.id.bt_like);
-            bt_comment = (ImageView) v.findViewById(R.id.bt_comment);
-            bt_share = (ImageView) v.findViewById(R.id.bt_share);
+//            bt_like = (ImageView) v.findViewById(R.id.bt_like);
+//            bt_comment = (ImageView) v.findViewById(R.id.bt_comment);
+//            bt_share = (ImageView) v.findViewById(R.id.bt_share);
             text_content = (TextView) v.findViewById(R.id.text_content);
             text_date = (TextView) v.findViewById(R.id.text_date);
             lyt_parent = (LinearLayout) v.findViewById(R.id.lyt_parent);
@@ -78,7 +78,6 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
         final News p = items.get(position);
         //Picasso.with(ctx).load(p.getFriend().getPhoto()).resize(80, 80).transform(new CircleTransform()).into(holder.photo);
         holder.text_name.setText(p.getFriend().getName());
-        Log.d("Verify", p.getText());
         // content photo
 //        if (p.getPhoto() != -1) {
 //            holder.photo_content.setVisibility(View.VISIBLE);
@@ -91,31 +90,31 @@ public class FeedListAdapter extends RecyclerView.Adapter<FeedListAdapter.ViewHo
         }
 
         holder.text_date.setText(p.getDate());
-        holder.bt_more.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(final View view) {
-                Snackbar.make(view, "More Clicked", Snackbar.LENGTH_SHORT).show();
-            }
-        });
-        holder.bt_like.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Like Clicked", Snackbar.LENGTH_SHORT).show();
-            }
-        });
-
-        holder.bt_comment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Comment Clicked", Snackbar.LENGTH_SHORT).show();
-            }
-        });
-        holder.bt_share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Share Clicked", Snackbar.LENGTH_SHORT).show();
-            }
-        });
+//        holder.bt_more.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(final View view) {
+//                Snackbar.make(view, "More Clicked", Snackbar.LENGTH_SHORT).show();
+//            }
+//        });
+//        holder.bt_like.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Like Clicked", Snackbar.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//        holder.bt_comment.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Comment Clicked", Snackbar.LENGTH_SHORT).show();
+//            }
+//        });
+//        holder.bt_share.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Share Clicked", Snackbar.LENGTH_SHORT).show();
+//            }
+//        });
 
         // optimize padding
         if (position == 0) {

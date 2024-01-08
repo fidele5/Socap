@@ -1,10 +1,15 @@
 package com.example.socap;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,23 +18,30 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.ViewCompat;
-
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.example.socap.adapter.MessageDetailsListAdapter;
-import com.example.socap.data.Constant;
+import com.example.socap.api.Api;
+import com.example.socap.api.ApiClient;
 import com.example.socap.data.Tools;
-import com.example.socap.model.User;
+import com.example.socap.model.Conversation;
 import com.example.socap.model.MessageDetails;
+import com.example.socap.model.User;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ActivityChatDetails extends AppCompatActivity {
 
@@ -54,13 +66,17 @@ public class ActivityChatDetails extends AppCompatActivity {
     private User user;
     private List<MessageDetails> items = new ArrayList<>();
     private View parent_view;
-
+    SharedPreferences sharedPreferences;
+    private Api api;
+    private Conversation conversation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_social_activity_chat_details);
         parent_view = findViewById(android.R.id.content);
-
+        sharedPreferences = getSharedPreferences("auth", MODE_PRIVATE);
+        api = ApiClient.getClient(sharedPreferences.getString("token", "")).create(Api.class);
+        conversation = new Conversation();
         // animation transition
         ViewCompat.setTransitionName(parent_view, KEY_FRIEND);
 
@@ -71,16 +87,22 @@ public class ActivityChatDetails extends AppCompatActivity {
         initToolbar();
 
         iniComponen();
-        if(snippets != null){
-            items.add(new MessageDetails(999, "09:55", user, snippets, false));
-        }
-        items.addAll(Constant.getMessageDetailsData(this, user));
+//        if(snippets != null){
+//            items.add(new MessageDetails(999, "09:55", user, snippets, false));
+//        }
+//        items.addAll(Constant.getMessageDetailsData(this, user));
 
         adapter = new MessageDetailsListAdapter(this, items);
         listview.setAdapter(adapter);
         listview.setSelectionFromTop(adapter.getCount(), 0);
         listview.requestFocus();
         registerForContextMenu(listview);
+
+        if (!taskRunning){
+            new AttempGetMessagesTask().execute("");
+        }
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(listener, new IntentFilter("NEW_MESSAGE"));
 
         // for system bar in lollipop
         Tools.systemBarLolipop(this);
@@ -111,12 +133,10 @@ public class ActivityChatDetails extends AppCompatActivity {
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                items.add(items.size(), new MessageDetails( items.size(), Constant.formatTime(System.currentTimeMillis()), user, et_content.getText().toString(), true));
-                items.add(items.size(), new MessageDetails( items.size(), Constant.formatTime(System.currentTimeMillis()), user, et_content.getText().toString(), false));
-                et_content.setText("");
-                bindView();
-                hideKeyboard();
+                if (!messageTaskRunning){
+                    Log.d("Test", "test");
+                    new AttemptSendMessage().execute("");
+                }
             }
         });
         et_content.addTextChangedListener(contentWatcher);
@@ -172,10 +192,156 @@ public class ActivityChatDetails extends AppCompatActivity {
         if (itemId == android.R.id.home) {
             onBackPressed();
             return true;
-        } else if (itemId == R.id.action_sample) {
-            Snackbar.make(parent_view, item.getTitle() + " Clicked ", Snackbar.LENGTH_SHORT).show();
-            return true;
         }
+//        else if (itemId == R.id.action_sample) {
+//            Snackbar.make(parent_view, item.getTitle() + " Clicked ", Snackbar.LENGTH_SHORT).show();
+//            return true;
+//        }
         return super.onOptionsItemSelected(item);
     }
+
+    private boolean messageTaskRunning = false;
+    private class AttemptSendMessage extends AsyncTask<String, String, String> {
+
+        @Override
+        protected String doInBackground(String... strings) {
+            try {
+                Call<Conversation> call = api.sendMessage(et_content.getText().toString(), user.getId(), conversation.getId());
+                call.enqueue(new Callback<Conversation>() {
+                    @Override
+                    public void onResponse(@NonNull Call<Conversation> call, @NonNull Response<Conversation> response) {
+                        Conversation data = response.body();
+
+                        if (data != null) {
+                            conversation = new Conversation(
+                                    data.getId(),
+                                    data.getDate(),
+                                    data.getFromUserId(),
+                                    data.getToUserId(),
+                                    data.getFromUser(),
+                                    data.getToUser(),
+                                    data.getMessages()
+                            );
+
+                            if (conversation.getMessages() != null) {
+                                if (!conversation.getMessages().isEmpty()) {
+                                    for (MessageDetails message : conversation.getMessages()) {
+                                        Log.d("message", "is from me " + message.isFromMe());
+                                        items.add(new MessageDetails(
+                                                message.getId(),
+                                                message.getDate(),
+                                                message.getFriend(),
+                                                message.getContent(),
+                                                message.isFromMe())
+                                        );
+                                    }
+                                }
+                            }
+
+                            et_content.setText("");
+                            bindView();
+                            hideKeyboard();
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<Conversation> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    }
+
+    private boolean taskRunning = false;
+    private class AttempGetMessagesTask extends AsyncTask<String, String, String> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... strings) {
+            Log.d("id", "user "+user.getId());
+            try {
+                Call<Conversation> call = api.getMessages(user.getId());
+                call.enqueue(new Callback<Conversation>() {
+
+                    @Override
+                    public void onResponse(@NonNull Call<Conversation> call, @NonNull Response<Conversation> response) {
+                        Conversation data = response.body();
+                        Log.d("response", call.request().url().toString());
+                        if (data != null) {
+                            conversation = new Conversation(
+                                    data.getId(),
+                                    data.getDate(),
+                                    data.getFromUserId(),
+                                    data.getToUserId(),
+                                    data.getFromUser(),
+                                    data.getToUser(),
+                                    data.getMessages()
+                            );
+
+                            //Log.d("conversation", conversation.getDate());
+
+                            if (conversation.getMessages() != null) {
+                                if (!conversation.getMessages().isEmpty()) {
+                                    for (MessageDetails message : conversation.getMessages()) {
+                                        items.add(new MessageDetails(
+                                                message.getId(),
+                                                message.getDate(),
+                                                message.getFriend(),
+                                                message.getContent(),
+                                                message.isFromMe())
+                                        );
+                                    }
+
+                                    adapter = new MessageDetailsListAdapter(ActivityChatDetails.this, items);
+                                    listview.setAdapter(adapter);
+                                    listview.setSelectionFromTop(adapter.getCount(), 0);
+                                    listview.requestFocus();
+                                    registerForContextMenu(listview);
+                                }
+                            }
+                            //                            for (User u:data) {
+//                                u = new User(u.getId(), u.getName(), u.getPhoto());
+//                                users.add(u);
+//                            }
+//                            if (!users.isEmpty()) {
+//                                setAdapter(users);
+//                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<Conversation> call, Throwable t) {
+                        t.printStackTrace();
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
+    }
+
+    private BroadcastReceiver listener = new BroadcastReceiver() {
+        @Override
+        public void onReceive( Context context, Intent intent ) {
+            String data = intent.getStringExtra("message");
+            if (data != null) {
+                new AttempGetMessagesTask().execute("");
+            }
+        }
+    };
 }

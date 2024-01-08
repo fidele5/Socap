@@ -63,7 +63,7 @@ public class ActivitySplash extends AppCompatActivity {
                         User user = auth.getUser();
                         PushNotifications.start(getApplicationContext(), "1e06e9af-9177-4b35-839a-cad08fc28ff6");
                         PushNotifications.addDeviceInterest("App.User."+user.getId());
-                        Snackbar.make(parent_view, "Login Success " + user.getName(), Snackbar.LENGTH_SHORT).show();
+                        Snackbar.make(parent_view, "Login Success " + user.getName(), Snackbar.LENGTH_LONG).show();
                         setUserInLocalStorage(auth);
                         Intent i = new Intent(ActivitySplash.this, MainActivity.class);
                         startActivity(i);

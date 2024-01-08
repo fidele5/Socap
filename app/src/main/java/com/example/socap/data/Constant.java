@@ -72,7 +72,7 @@ public class Constant {
         String s_arr[] = ctx.getResources().getStringArray(R.array.app_social_people_names);
         TypedArray drw_arr = ctx.getResources().obtainTypedArray(R.array.app_social_people_photos);
         for (int i = 0; i < s_arr.length; i++) {
-            User fr = new User(i, s_arr[i], drw_arr.getResourceId(i, -1));
+            User fr = new User(i, s_arr[i], "", drw_arr.getResourceId(i, -1));
             items.add(fr);
         }
         return items;

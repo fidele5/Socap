@@ -1,12 +1,19 @@
 package com.example.socap.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class MessageDetails implements Serializable{
+	@SerializedName("id")
 	private long id;
+	@SerializedName("date")
 	private String date;
+	@SerializedName("to_user")
 	private User user;
+	@SerializedName("text")
 	private String content;
+	@SerializedName("self")
 	private boolean fromMe;
 
 	public MessageDetails(long id, String date, User user, String content, boolean fromMe) {

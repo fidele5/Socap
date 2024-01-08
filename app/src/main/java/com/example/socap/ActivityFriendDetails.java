@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,6 +46,11 @@ public class ActivityFriendDetails extends AppCompatActivity {
     private FriendPhotosFragment frag_friendPhotos;
     private ActionBar actionBar;
     public static User user;
+
+    private TextView description_1;
+    private TextView description_2;
+    private TextView description2;
+    private TextView descriptioxn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,27 +74,15 @@ public class ActivityFriendDetails extends AppCompatActivity {
         collapsingToolbar.setTitle(user.getName());
         ImageView ivImage = (ImageView)findViewById(R.id.ivImage);
         ivImage.setImageResource(user.getPhoto());
+        description_1 = (TextView) findViewById(R.id.description_1);
+        description_2 = (TextView) findViewById(R.id.description1);
+        description2 = (TextView) findViewById(R.id.description2);
+        descriptioxn = (TextView) findViewById(R.id.descriptioxn);
 
-        mViewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(mViewPager);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
-        tabLayout.setupWithViewPager(mViewPager);
-
-    }
-
-    private void setupViewPager(ViewPager mViewPager) {
-        MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager());
-
-        if( frag_friendAbout == null ){ frag_friendAbout = new FriendAboutFragment(); }
-        if( frag_friendActivity == null ){ frag_friendActivity = new FriendActivitiesFragment(); }
-        if( frag_friendPhotos == null ){ frag_friendPhotos = new FriendPhotosFragment(); }
-
-        adapter.addFragment(frag_friendAbout, "ABOUT");
-        adapter.addFragment(frag_friendActivity, "ACTIVITIES");
-        adapter.addFragment(frag_friendPhotos, "PHOTOS");
-
-        mViewPager.setAdapter(adapter);
+        description_1.setText(user.getName());
+        description_2.setText(user.getPhoneNumber());
+        description2.setText(user.getEmail());
+        descriptioxn.setText(user.getBiography());
     }
 
     @Override
@@ -108,35 +102,5 @@ public class ActivityFriendDetails extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.app_social_menu_activity_friend_details, menu);
         return true;
-    }
-
-
-    static class MyPagerAdapter extends FragmentPagerAdapter {
-        private final List<Fragment> mFragments = new ArrayList<>();
-        private final List<String> mFragmentTitles = new ArrayList<>();
-
-        public MyPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        public void addFragment(Fragment fragment, String title) {
-            mFragments.add(fragment);
-            mFragmentTitles.add(title);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return mFragments.get(position);
-        }
-
-        @Override
-        public int getCount() {
-            return mFragments.size();
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return mFragmentTitles.get(position);
-        }
     }
 }

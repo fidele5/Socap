@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
@@ -220,13 +219,6 @@ public class ActivityLogin extends AppCompatActivity {
         editor.putInt("id", auth.getUser().getId());
         editor.putString("name", auth.getUser().getName());
         editor.putString("token", auth.getToken());
-        editor.apply();
-    }
-
-    public void logout(){
-        SharedPreferences sharedPrefs = getSharedPreferences("auth", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPrefs.edit();
-        editor.clear();
         editor.apply();
     }
 }

@@ -21,6 +21,7 @@ import com.example.socap.fragment.PageFriendFragment;
 import com.example.socap.fragment.PageMessageFragment;
 import com.example.socap.fragment.PageNotifFragment;
 import com.example.socap.fragment.PageProfileFragment;
+import com.example.socap.services.PusherService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
         setupTabIcons();
         setupTabClick();
+        startService(new Intent(this, PusherService.class));
 
         // for system bar in lollipop
         Tools.systemBarLolipop(this);
@@ -76,12 +78,12 @@ public class MainActivity extends AppCompatActivity {
         if (f_feed == null) { f_feed = new PageFeedFragment(); }
         if (f_friend == null) { f_friend = new PageFriendFragment(); }
         if (f_message == null) { f_message = new PageMessageFragment(); }
-        if (f_notif == null) { f_notif = new PageNotifFragment(); }
+        //if (f_notif == null) { f_notif = new PageNotifFragment(); }
         if (f_profile == null) { f_profile = new PageProfileFragment(); }
         adapter.addFragment(f_feed, getString(R.string.app_social_tab_feed));
         adapter.addFragment(f_friend, getString(R.string.app_social_tab_friend));
         adapter.addFragment(f_message, getString(R.string.app_social_tab_message));
-        adapter.addFragment(f_notif, getString(R.string.app_social_tab_notif));
+        //adapter.addFragment(f_notif, getString(R.string.app_social_tab_notif));
         adapter.addFragment(f_profile, getString(R.string.app_social_tab_profile));
         viewPager.setAdapter(adapter);
     }
@@ -90,8 +92,8 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.getTabAt(0).setIcon(imageResId[0]);
         tabLayout.getTabAt(1).setIcon(imageResId[1]);
         tabLayout.getTabAt(2).setIcon(imageResId[2]);
-        tabLayout.getTabAt(3).setIcon(imageResId[3]);
-        tabLayout.getTabAt(4).setIcon(imageResId[4]);
+        //tabLayout.getTabAt(3).setIcon(imageResId[3]);
+        tabLayout.getTabAt(3).setIcon(imageResId[4]);
 
         int tabIconColor = ContextCompat.getColor(this, android.R.color.white);
         tabLayout.getTabAt(0).getIcon().setColorFilter(tabIconColor, PorterDuff.Mode.SRC_IN);
@@ -124,19 +126,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_about) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("About");
-            builder.setMessage(getString(R.string.app_social_about_text));
-            builder.setNeutralButton("OK", null);
-            builder.show();
-        } else if (id == R.id.action_login) {
-            Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
-            startActivity(i);
-        } else if (id == R.id.action_settings) {
-            Snackbar.make(parent_view, "Setting Clicked", Snackbar.LENGTH_SHORT).show();
-            return true;
-        }
+//        if (id == R.id.action_about) {
+//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//            builder.setTitle("About");
+//            builder.setMessage(getString(R.string.app_social_about_text));
+//            builder.setNeutralButton("OK", null);
+//            builder.show();
+//        } else if (id == R.id.action_login) {
+//            Intent i = new Intent(getApplicationContext(), ActivityLogin.class);
+//            startActivity(i);
+//        } else if (id == R.id.action_settings) {
+//            Snackbar.make(parent_view, "Setting Clicked", Snackbar.LENGTH_SHORT).show();
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }

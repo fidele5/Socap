@@ -2,6 +2,10 @@ package com.example.socap.fragment;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,6 +20,7 @@ import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -61,6 +66,8 @@ public class PageFeedFragment extends Fragment {
 
         api = ApiClient.getClient(sharedPreferences.getString("token", "")).create(Api.class);
 
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(listener, new IntentFilter("NEW_POST"));
+
         news = new ArrayList<>();
 
         recyclerView.setHasFixedSize(true);
@@ -78,10 +85,10 @@ public class PageFeedFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_new_feed) {
-            Snackbar.make(view, item.getTitle() + " Clicked", Snackbar.LENGTH_SHORT).show();
-            return true;
-        }
+//        if (item.getItemId() == R.id.action_new_feed) {
+//            Snackbar.make(view, item.getTitle() + " Clicked", Snackbar.LENGTH_SHORT).show();
+//            return true;
+//        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -139,5 +146,15 @@ public class PageFeedFragment extends Fragment {
             super.onProgressUpdate(values);
         }
     }
+
+    private BroadcastReceiver listener = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent ) {
+            String data = intent.getStringExtra("post");
+            if (data != null) {
+                new DummyFeedLoader().execute("");
+            }
+        }
+    };
 
 }

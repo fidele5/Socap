@@ -1,7 +1,11 @@
 package com.example.socap.adapter;
 
+import static android.content.Context.MODE_PRIVATE;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,28 +20,27 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
-import template.social.widget.CircleTransform;
-
 import com.example.socap.R;
-import com.example.socap.model.Message;
+import com.example.socap.model.Conversation;
 import com.google.android.material.snackbar.Snackbar;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.ViewHolder> implements Filterable {
 
-    private List<Message> original_items = new ArrayList<>();
-    private List<Message> filtered_items = new ArrayList<>();
+    private List<Conversation> original_items = new ArrayList<>();
+    private List<Conversation> filtered_items = new ArrayList<>();
     private ItemFilter mFilter = new ItemFilter();
 
     private Context ctx;
     private OnItemClickListener mOnItemClickListener;
     private boolean clicked = false;
 
+    SharedPreferences sharedPreferences;
+
     public interface OnItemClickListener {
-        void onItemClick(View view, Message obj, int position);
+        void onItemClick(View view, Conversation obj, int position);
     }
 
     public void setOnItemClickListener(final OnItemClickListener mItemClickListener) {
@@ -68,7 +71,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public MessageListAdapter(Context ctx, List<Message> items) {
+    public MessageListAdapter(Context ctx, List<Conversation> items) {
         this.ctx = ctx;
         original_items = items;
         filtered_items = items;
@@ -86,16 +89,23 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
-        final Message c = filtered_items.get(position);
-        holder.title.setText(c.getFriend().getName());
+    public void onBindViewHolder(ViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+        final Conversation c = filtered_items.get(position);
+        sharedPreferences = ctx.getSharedPreferences("auth", MODE_PRIVATE);
+        if (c.getToUserId() == sharedPreferences.getInt("id", 1)){
+            holder.title.setText(c.getFromUser().getName());
+        }else{
+            holder.title.setText(c.getToUser().getName());
+        }
+
+        holder.content.setText(c.getMessages().get(c.getMessages().size() - 1).getContent());
 
         holder.time.setText(c.getDate());
-        holder.content.setText(c.getSnippet());
-        Picasso.with(ctx).load(c.getFriend().getPhoto())
-                .resize(100, 100)
-                .transform(new CircleTransform())
-                .into(holder.image);
+//        holder.content.setText(c.getSnippet());
+//        Picasso.with(ctx).load(c.getFriend().getPhoto())
+//                .resize(100, 100)
+//                .transform(new CircleTransform())
+//                .into(holder.image);
 
         setAnimation(holder.itemView, position);
 
@@ -121,10 +131,10 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
     }
 
 
-    private void dialogDeleteMessageConfirm(final View view, final Message c, final int position) {
+    private void dialogDeleteMessageConfirm(final View view, final Conversation c, final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
         builder.setTitle("Delete Confirmation");
-        builder.setMessage("All chat from : " + c.getFriend().getName() + " will be deleted?");
+        builder.setMessage("All chat from : " + c.getToUser().getName() + " will be deleted?");
         builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -166,12 +176,12 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
             String query = constraint.toString().toLowerCase();
 
             FilterResults results = new FilterResults();
-            final List<Message> list = original_items;
-            final List<Message> result_list = new ArrayList<>(list.size());
+            final List<Conversation> list = original_items;
+            final List<Conversation> result_list = new ArrayList<>(list.size());
 
             for (int i = 0; i < list.size(); i++) {
-                String str_title = list.get(i).getFriend().getName();
-                String str_snippet = list.get(i).getSnippet();
+                String str_title = list.get(i).getToUser().getName();
+                String str_snippet = "test";
                 if (str_title.toLowerCase().contains(query) || str_snippet.toLowerCase().contains(query)) {
                     result_list.add(list.get(i));
                 }
@@ -186,7 +196,7 @@ public class MessageListAdapter extends RecyclerView.Adapter<MessageListAdapter.
         @SuppressWarnings("unchecked")
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            filtered_items = (List<Message>) results.values;
+            filtered_items = (List<Conversation>) results.values;
             notifyDataSetChanged();
         }
 

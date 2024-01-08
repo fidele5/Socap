@@ -45,6 +45,7 @@
                         android:orientation="vertical">
 
                         <TextView
+                            android:id="@+id/profile_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/app_social_my_name"
@@ -59,121 +60,6 @@
                             android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                             android:textColor="@color/material_grey_600" />
                     </LinearLayout>
-                </LinearLayout>
-            </com.balysv.materialripple.MaterialRippleLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:layout_marginLeft="@dimen/app_social_spacing_large"
-                android:layout_marginRight="@dimen/app_social_spacing_large"
-                android:background="@color/app_social_grey_medium" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/app_social_spacing_large"
-                android:layout_marginRight="@dimen/app_social_spacing_large"
-                android:gravity="center_vertical"
-                android:minHeight="30dp"
-                android:text="GROUPS"
-                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                android:textColor="@color/app_social_grey_medium" />
-
-            <com.balysv.materialripple.MaterialRippleLayout
-                style="@style/RippleStyleBlack"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:id="@+id/lyt_group_cat"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:gravity="center_vertical"
-                    android:minHeight="70dp"
-                    android:onClick="actionClick"
-                    android:orientation="horizontal"
-                    android:paddingLeft="@dimen/app_social_spacing_xlarge"
-                    android:paddingRight="@dimen/app_social_spacing_xlarge">
-
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/app_social_ic_group_catlovers" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/app_social_spacing_mlarge"
-                        android:text="Cat Lovers"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                        android:textColor="@color/material_grey_600" />
-                </LinearLayout>
-            </com.balysv.materialripple.MaterialRippleLayout>
-
-
-            <com.balysv.materialripple.MaterialRippleLayout
-                style="@style/RippleStyleBlack"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:id="@+id/lyt_group_hangout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:gravity="center_vertical"
-                    android:minHeight="70dp"
-                    android:onClick="actionClick"
-                    android:orientation="horizontal"
-                    android:paddingLeft="@dimen/app_social_spacing_xlarge"
-                    android:paddingRight="@dimen/app_social_spacing_xlarge">
-
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/app_social_ic_group_hangout" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/app_social_spacing_mlarge"
-                        android:text="Hangout Friend"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                        android:textColor="@color/material_grey_600" />
-                </LinearLayout>
-            </com.balysv.materialripple.MaterialRippleLayout>
-
-            <com.balysv.materialripple.MaterialRippleLayout
-                style="@style/RippleStyleBlack"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <LinearLayout
-                    android:id="@+id/lyt_group_collage"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:clickable="true"
-                    android:gravity="center_vertical"
-                    android:minHeight="70dp"
-                    android:onClick="actionClick"
-                    android:orientation="horizontal"
-                    android:paddingLeft="@dimen/app_social_spacing_xlarge"
-                    android:paddingRight="@dimen/app_social_spacing_xlarge">
-
-                    <ImageView
-                        android:layout_width="50dp"
-                        android:layout_height="50dp"
-                        android:src="@drawable/app_social_ic_group_collage" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/app_social_spacing_mlarge"
-                        android:text="College"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-                        android:textColor="@color/material_grey_600" />
                 </LinearLayout>
             </com.balysv.materialripple.MaterialRippleLayout>
 
